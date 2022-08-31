@@ -2,6 +2,10 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, addDoc, onSnapshot } from "firebase/firestore";
 import { doc, deleteDoc } from "firebase/firestore";
+// TODO 01 Firestore Queries 官网文档：读取数据 > 对数据排序和限定数量
+import { query, where } from "firebase/firestore";
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCwgZQMePDKWDeYWm887wbOxtT9cIw8kh0",
@@ -21,6 +25,10 @@ const db = getFirestore();
 // collection ref
 const colRef = collection(db, 'users');
 
+// TODO 02 queries
+const q = query(colRef, where("name", "==", "Tiffany"))
+
+
 // get collection data
 // getDocs(colRef)
 //   .then((data)=> {
@@ -37,8 +45,13 @@ const colRef = collection(db, 'users');
 //     console.log(err.message)
 //   })
 
-// TODO: Real time collection data
-onSnapshot(colRef, (snapshot) => {
+// Real time collection data
+
+// TODO 03 colRef is replaced by q
+// Replace colref with Q
+
+// onSnapshot(colRef, (snapshot) => {
+onSnapshot(q, (snapshot) => {
   let users = [];
   snapshot.docs.forEach(doc => {
     users.push({...doc.data(), id: doc.id})

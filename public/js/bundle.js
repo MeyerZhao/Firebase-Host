@@ -24181,6 +24181,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// TODO 01 Firestore Queries 官网文档：读取数据 > 对数据排序和限定数量
+
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCwgZQMePDKWDeYWm887wbOxtT9cIw8kh0",
@@ -24200,6 +24204,10 @@ const db = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getFirestore)();
 // collection ref
 const colRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(db, 'users');
 
+// TODO 02 queries
+const q = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.query)(colRef, (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.where)("name", "==", "Tiffany"))
+
+
 // get collection data
 // getDocs(colRef)
 //   .then((data)=> {
@@ -24216,8 +24224,13 @@ const colRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(db
 //     console.log(err.message)
 //   })
 
-// TODO: Real time collection data
-(0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.onSnapshot)(colRef, (snapshot) => {
+// Real time collection data
+
+// TODO 03 colRef is replaced by q
+// Replace colref with Q
+
+// onSnapshot(colRef, (snapshot) => {
+;(0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.onSnapshot)(q, (snapshot) => {
   let users = [];
   snapshot.docs.forEach(doc => {
     users.push({...doc.data(), id: doc.id})

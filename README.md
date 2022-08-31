@@ -70,9 +70,8 @@ https://console.firebase.google.com/project/webteaching-96da1/hosting/sites
 ## FBS-05
 https://www.youtube.com/watch?v=s1frrNxq4js&list=PL4cUxeGkcC9jERUGvbudErNCeSZHWUVlb&index=5
 
-**删除文档**
+删除文档
 https://firebase.google.com/docs/firestore/manage-data/delete-data?authuser=0
-
 ```js
 import { doc, deleteDoc } from "firebase/firestore";
 
@@ -108,6 +107,32 @@ onSnapshot(colRef, (snapshot) => {
   console.log('users', users)
 })
 ```
+
+
+
+## FBS-07
+
+```js
+// TODO 01 Firestore Queries 官网文档：读取数据 > 对数据排序和限定数量
+import { query, where } from "firebase/firestore";
+
+// TODO 02 queries
+const q = query(colRef, where("name", "==", "Tiffany"))
+
+// TODO 03 colRef is replaced by q
+// Replace colref with Q
+
+// onSnapshot(colRef, (snapshot) => {
+onSnapshot(q, (snapshot) => {
+  let users = [];
+  snapshot.docs.forEach(doc => {
+    users.push({...doc.data(), id: doc.id})
+  })
+  console.log('users', users)
+})
+```
+
+
 
 
 
