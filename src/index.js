@@ -23,5 +23,20 @@ const colRef = collection(db, 'users');
 // get collection data
 getDocs(colRef)
   .then((data)=> {
-    console.log(data.docs)
+    console.log('data.docs', data.docs)
+    let users = [];
+    data.docs.forEach((doc) => {
+      users.push({...doc.data(), id: doc.id})
+    })
+    console.log('users', users);
   })
+  .catch(err => {
+    console.log(err.message)
+  })
+
+// get collection data 使用 await 语法
+// const querySnapshot = await getDocs(collection(db, "users"));
+// querySnapshot.forEach((doc) => {
+//   console.log(`${doc.id} => ${doc.data()}`);
+//   console.log(doc.data())
+// });
