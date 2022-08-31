@@ -24205,7 +24205,10 @@ const db = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getFirestore)();
 const colRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(db, 'users');
 
 // TODO 02 queries
-const q = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.query)(colRef, (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.where)("name", "==", "Tiffany"))
+function queriesHandler(keyword){
+  return (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.query)(colRef, (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.where)("name", "==", keyword))
+}
+// "Tiffany"
 
 
 // get collection data
@@ -24230,13 +24233,23 @@ const q = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.query)(colRef, (0,f
 // Replace colref with Q
 
 // onSnapshot(colRef, (snapshot) => {
-;(0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.onSnapshot)(q, (snapshot) => {
-  let users = [];
-  snapshot.docs.forEach(doc => {
-    users.push({...doc.data(), id: doc.id})
+function onSnapshotHandler(colRef, keyword) {
+  let newColRef = colRef;
+
+  if (keyword) {
+    newColRef = queriesHandler(keyword)
+  }
+
+  (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.onSnapshot)(newColRef, (snapshot) => {
+    let users = [];
+    snapshot.docs.forEach(doc => {
+      users.push({...doc.data(), id: doc.id})
+    })
+    console.log('users', users)
   })
-  console.log('users', users)
-})
+};
+
+onSnapshotHandler(colRef)
 
 
 // get collection data 使用 await 语法
@@ -24275,6 +24288,16 @@ deleteUserForm.addEventListener('submit', (e) => {
       deleteUserForm.reset()
     })
 })
+
+//TODO 04 Firestore Queries
+const queriesUserInput = document.querySelector('.form-query-input')
+queriesUserInput.addEventListener('change', (e) => {
+  console.log(e.target.value)
+  let keywords = (e.target.value).replace(/^\s+|\s+$/g,"");
+  console.log(keywords)
+  onSnapshotHandler(colRef, keywords)
+})
+
 })();
 
 /******/ })()

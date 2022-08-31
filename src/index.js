@@ -26,7 +26,10 @@ const db = getFirestore();
 const colRef = collection(db, 'users');
 
 // TODO 02 queries
-const q = query(colRef, where("name", "==", "Tiffany"))
+function queriesHandler(keyword){
+  return query(colRef, where("name", "==", keyword))
+}
+// "Tiffany"
 
 
 // get collection data
@@ -51,13 +54,23 @@ const q = query(colRef, where("name", "==", "Tiffany"))
 // Replace colref with Q
 
 // onSnapshot(colRef, (snapshot) => {
-onSnapshot(q, (snapshot) => {
-  let users = [];
-  snapshot.docs.forEach(doc => {
-    users.push({...doc.data(), id: doc.id})
+function onSnapshotHandler(colRef, keyword) {
+  let newColRef = colRef;
+
+  if (keyword) {
+    newColRef = queriesHandler(keyword)
+  }
+
+  onSnapshot(newColRef, (snapshot) => {
+    let users = [];
+    snapshot.docs.forEach(doc => {
+      users.push({...doc.data(), id: doc.id})
+    })
+    console.log('users', users)
   })
-  console.log('users', users)
-})
+};
+
+onSnapshotHandler(colRef)
 
 
 // get collection data 使用 await 语法
@@ -95,4 +108,13 @@ deleteUserForm.addEventListener('submit', (e) => {
     .then(() => {
       deleteUserForm.reset()
     })
+})
+
+//TODO 04 Firestore Queries
+const queriesUserInput = document.querySelector('.form-query-input')
+queriesUserInput.addEventListener('change', (e) => {
+  console.log(e.target.value)
+  let keywords = (e.target.value).replace(/^\s+|\s+$/g,"");
+  console.log(keywords)
+  onSnapshotHandler(colRef, keywords)
 })
