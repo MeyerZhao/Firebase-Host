@@ -1,6 +1,6 @@
 // src/index.js
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, onSnapshot } from "firebase/firestore";
 import { doc, deleteDoc } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -22,20 +22,30 @@ const db = getFirestore();
 const colRef = collection(db, 'users');
 
 // get collection data
-getDocs(colRef)
-  .then((data)=> {
-    let users = [];
-    data.docs.forEach((doc) => {
-      console.log('doc.data()', {...doc.data(), id: doc.id})
-      // users.push(doc.data())
-      // users.push(Object.assign(doc.data(), {id: doc.id}))
-      users.push({...doc.data(), id: doc.id})
-    })
-    console.log('users', users);
+// getDocs(colRef)
+//   .then((data)=> {
+//     let users = [];
+//     data.docs.forEach((doc) => {
+//       console.log('doc.data()', {...doc.data(), id: doc.id})
+//       // users.push(doc.data())
+//       // users.push(Object.assign(doc.data(), {id: doc.id}))
+//       users.push({...doc.data(), id: doc.id})
+//     })
+//     console.log('users', users);
+//   })
+//   .catch(err => {
+//     console.log(err.message)
+//   })
+
+// TODO: Real time collection data
+onSnapshot(colRef, (snapshot) => {
+  let users = [];
+  snapshot.docs.forEach(doc => {
+    users.push({...doc.data(), id: doc.id})
   })
-  .catch(err => {
-    console.log(err.message)
-  })
+  console.log('users', users)
+})
+
 
 // get collection data 使用 await 语法
 // const querySnapshot = await getDocs(collection(db, "users"));

@@ -24180,8 +24180,6 @@ __webpack_require__.r(__webpack_exports__);
 // src/index.js
 
 
-// 删除文档
-// https://firebase.google.com/docs/firestore/manage-data/delete-data?authuser=0
 
 
 const firebaseConfig = {
@@ -24203,20 +24201,30 @@ const db = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getFirestore)();
 const colRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(db, 'users');
 
 // get collection data
-(0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDocs)(colRef)
-  .then((data)=> {
-    let users = [];
-    data.docs.forEach((doc) => {
-      console.log('doc.data()', {...doc.data(), id: doc.id})
-      // users.push(doc.data())
-      // users.push(Object.assign(doc.data(), {id: doc.id}))
-      users.push({...doc.data(), id: doc.id})
-    })
-    console.log('users', users);
+// getDocs(colRef)
+//   .then((data)=> {
+//     let users = [];
+//     data.docs.forEach((doc) => {
+//       console.log('doc.data()', {...doc.data(), id: doc.id})
+//       // users.push(doc.data())
+//       // users.push(Object.assign(doc.data(), {id: doc.id}))
+//       users.push({...doc.data(), id: doc.id})
+//     })
+//     console.log('users', users);
+//   })
+//   .catch(err => {
+//     console.log(err.message)
+//   })
+
+// TODO: Real time collection data
+(0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.onSnapshot)(colRef, (snapshot) => {
+  let users = [];
+  snapshot.docs.forEach(doc => {
+    users.push({...doc.data(), id: doc.id})
   })
-  .catch(err => {
-    console.log(err.message)
-  })
+  console.log('users', users)
+})
+
 
 // get collection data 使用 await 语法
 // const querySnapshot = await getDocs(collection(db, "users"));

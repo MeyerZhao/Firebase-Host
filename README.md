@@ -68,17 +68,46 @@ https://console.firebase.google.com/project/webteaching-96da1/hosting/sites
 
 
 ## FBS-05
-
 https://www.youtube.com/watch?v=s1frrNxq4js&list=PL4cUxeGkcC9jERUGvbudErNCeSZHWUVlb&index=5
 
-### 删除文档
+**删除文档**
 https://firebase.google.com/docs/firestore/manage-data/delete-data?authuser=0
+
 ```js
 import { doc, deleteDoc } from "firebase/firestore";
 
 await deleteDoc(doc(db, "cities", "DC"));
 ```
 
+
+## FBS-06
+
+```js
+// get collection data
+// getDocs(colRef)
+//   .then((data)=> {
+//     let users = [];
+//     data.docs.forEach((doc) => {
+//       console.log('doc.data()', {...doc.data(), id: doc.id})
+//       // users.push(doc.data())
+//       // users.push(Object.assign(doc.data(), {id: doc.id}))
+//       users.push({...doc.data(), id: doc.id})
+//     })
+//     console.log('users', users);
+//   })
+//   .catch(err => {
+//     console.log(err.message)
+//   })
+
+// TODO: Real time collection data
+onSnapshot(colRef, (snapshot) => {
+  let users = [];
+  snapshot.docs.forEach(doc => {
+    users.push({...doc.data(), id: doc.id})
+  })
+  console.log('users', users)
+})
+```
 
 
 
