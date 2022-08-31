@@ -24206,7 +24206,22 @@ const colRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(db
 
 // TODO 02 queries
 function queriesHandler(keyword){
-  return (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.query)(colRef, (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.where)("name", "==", keyword))
+  console.log('keyword', keyword)
+  let orderWay = ['asc', 'desc'][0] // asc or desc
+
+  // if (keyword) {
+  //   return query(colRef, where("name", "==", keyword), orderBy('name', orderWay))
+  // }
+
+  // if(!keyword) {
+  //   return query(colRef, where("name", "!=", false), orderBy('name', orderWay))
+  // }
+
+  return (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.query)(colRef, (
+    keyword ? (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.where)("name", "==", keyword) : (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.where)("name", "!=", false)
+  ) , (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.orderBy)('name', orderWay))
+
+  // return query(colRef, orderBy('createdAt'))
 }
 // "Tiffany"
 
@@ -24229,18 +24244,11 @@ function queriesHandler(keyword){
 
 // Real time collection data
 
-// TODO 03 colRef is replaced by q
 // Replace colref with Q
 
 // onSnapshot(colRef, (snapshot) => {
-function onSnapshotHandler(colRef, keyword) {
-  let newColRef = colRef;
-
-  if (keyword) {
-    newColRef = queriesHandler(keyword)
-  }
-
-  (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.onSnapshot)(newColRef, (snapshot) => {
+function onSnapshotHandler(keyword) {
+  (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.onSnapshot)(queriesHandler(keyword), (snapshot) => {
     let users = [];
     snapshot.docs.forEach(doc => {
       users.push({...doc.data(), id: doc.id})
@@ -24249,7 +24257,7 @@ function onSnapshotHandler(colRef, keyword) {
   })
 };
 
-onSnapshotHandler(colRef)
+onSnapshotHandler()
 
 
 // get collection data 使用 await 语法
@@ -24260,7 +24268,7 @@ onSnapshotHandler(colRef)
 // });
 
 
-// Adding User
+//TODO 03 Adding User
 const addUserForm = document.querySelector('.form-add')
 addUserForm.addEventListener('submit', (e) => {
   console.log('submit .form-add')
@@ -24269,6 +24277,7 @@ addUserForm.addEventListener('submit', (e) => {
   ;(0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.addDoc)(colRef, {
     name: addUserForm.name.value,
     email: addUserForm.email.value,
+    createdAt: (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.serverTimestamp)()
   })
   .then(() => {
     addUserForm.reset()
@@ -24289,13 +24298,12 @@ deleteUserForm.addEventListener('submit', (e) => {
     })
 })
 
-//TODO 04 Firestore Queries
 const queriesUserInput = document.querySelector('.form-query-input')
 queriesUserInput.addEventListener('change', (e) => {
   console.log(e.target.value)
   let keywords = (e.target.value).replace(/^\s+|\s+$/g,"");
-  console.log(keywords)
-  onSnapshotHandler(colRef, keywords)
+  console.log('keywords', keywords)
+  onSnapshotHandler(keywords)
 })
 
 })();

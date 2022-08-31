@@ -132,6 +132,31 @@ onSnapshot(q, (snapshot) => {
 })
 ```
 
+## FBS-08 Ordering Data & Timestamps
+
+用 **DESC** 表示按倒序排序(即:从大到小排序) ---降序排列
+
+```js
+// TODO 01 Firestore Queries 官网文档：读取数据 > 对数据排序和限定数量
+// 添加 orderBy
+import { query, where, orderBy } from "firebase/firestore";
+
+// TODO 02 queries
+function queriesHandler(keyword){
+  return query(colRef, where("name", "==", keyword), orderBy('name', 'desc'))
+}
+```
+
+```js
+  return query(colRef, (
+    keyword ? where("name", "==", keyword) : where("name", "!=", false)
+  ) , orderBy('name', orderWay))
+
+  // return query(colRef, orderBy('createdAt'))
+```
+
+
+
 
 
 
@@ -152,6 +177,8 @@ webpack.config.js
 ```js
 devtool: "source-map",
 ```
+
+
 
 ## 工具集合
 
