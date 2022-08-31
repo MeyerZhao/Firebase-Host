@@ -1,6 +1,9 @@
 // src/index.js
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
+// 删除文档
+// https://firebase.google.com/docs/firestore/manage-data/delete-data?authuser=0
+import { doc, deleteDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCwgZQMePDKWDeYWm887wbOxtT9cIw8kh0",
@@ -23,9 +26,11 @@ const colRef = collection(db, 'users');
 // get collection data
 getDocs(colRef)
   .then((data)=> {
-    console.log('data.docs', data.docs)
     let users = [];
     data.docs.forEach((doc) => {
+      console.log('doc.data()', {...doc.data(), id: doc.id})
+      // users.push(doc.data())
+      // users.push(Object.assign(doc.data(), {id: doc.id}))
       users.push({...doc.data(), id: doc.id})
     })
     console.log('users', users);
@@ -40,3 +45,33 @@ getDocs(colRef)
 //   console.log(`${doc.id} => ${doc.data()}`);
 //   console.log(doc.data())
 // });
+
+
+// Adding User
+const addUserForm = document.querySelector('.form-add')
+addUserForm.addEventListener('submit', (e) => {
+  console.log('submit .form-add')
+  e.preventDefault()
+
+  addDoc(colRef, {
+    name: addUserForm.name.value,
+    email: addUserForm.email.value,
+  })
+  .then(() => {
+    addUserForm.reset()
+  })
+})
+
+// Deleting User
+const deleteUserForm = document.querySelector('.form-delete')
+deleteUserForm.addEventListener('submit', (e) => {
+  console.log('submit .form-delete')
+  e.preventDefault()
+
+  const docRef = doc(db, 'users', deleteUserForm.id.value)
+
+  deleteDoc(docRef)
+    .then(() => {
+      deleteUserForm.reset()
+    })
+})

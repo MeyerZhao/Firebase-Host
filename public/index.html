@@ -5,9 +5,30 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Firebase 9</title>
-  <script src="./js/bundle.js"></script>
 </head>
 <body>
-  <h1>Getting started with firebase 9</h1>
+  <h1>Getting Started with Firebase 9</h1>
+
+  <h2>Firebase Firestore</h2>
+
+  <h3>Add User</h3>
+  <form class="form-add">
+    <label for="name">Name:</label>
+    <input type="text" name="name" required>
+    <label for="email">Email:</label>
+    <input type="text" name="email" required>
+
+    <button>Add a User</button>
+  </form>
+
+  <h3>Delete User</h3>
+  <form class="form-delete">
+    <label for="id">Document id:</label>
+    <input type="text" name="id" required>
+
+    <button>Delete a User</button>
+  </form>
+
+  <script src="./js/bundle.js"></script>
 </body>
 </html>

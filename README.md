@@ -2,7 +2,7 @@
 
 ```bash
 # 安装依赖
-$ npm install 
+$ npm install
 
 # 编译 js 通过 webpack
 $ npm run build
@@ -69,3 +69,46 @@ https://console.firebase.google.com/project/webteaching-96da1/hosting/sites
 
 https://www.youtube.com/watch?v=s1frrNxq4js&list=PL4cUxeGkcC9jERUGvbudErNCeSZHWUVlb&index=5
 
+### 删除文档
+https://firebase.google.com/docs/firestore/manage-data/delete-data?authuser=0
+```js
+import { doc, deleteDoc } from "firebase/firestore";
+
+await deleteDoc(doc(db, "cities", "DC"));
+```
+
+
+
+
+
+## 问题集合
+
+### webpack 编译的js 在浏览器有控制点有 warning 信息
+
+![image-20220831155514912](assets/images/image-20220831155514912.png)
+
+**修复方式**
+
+webpack.config.js
+
+在 webpack 配置文件内添加 以下配置。
+
+```js
+devtool: "source-map",
+```
+
+
+
+## 工具集合
+
+### mock data generator
+
+https://towardsdatascience.com/free-resources-for-generating-realistic-fake-data-da63836be1a8
+
+https://medium.datadriveninvestor.com/best-3-tools-for-generating-fake-data-a34a842f2acb
+
+- https://cobbl.io/
+
+- https://www.mockaroo.com/
+- https://generatedata.com/generator
+- https://www.onlinedatagenerator.com/
