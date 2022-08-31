@@ -1,8 +1,6 @@
 // src/index.js
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
-// 删除文档
-// https://firebase.google.com/docs/firestore/manage-data/delete-data?authuser=0
 import { doc, deleteDoc } from "firebase/firestore";
 
 const firebaseConfig = {
